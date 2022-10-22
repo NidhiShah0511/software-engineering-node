@@ -6,8 +6,11 @@ import UserController from './controllers/UserController';
 import TuitController from "./controllers/TuitController";
 import UserDao from './daos/UserDao';
 import TuitDao from './daos/TuitDao';
+import LikeDao from './daos/LikeDao';
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
+import LikeController from './controllers/LikeController';
+
 
 const cors = require('cors')
 const app = express();
@@ -25,8 +28,10 @@ app.get('/hello', (req: Request, res: Response) =>
 
 const userDao = new UserDao();
 const tuitDao = new TuitDao();
+const likeDao = new LikeDao();
 const userController = new UserController(app, userDao);
 const tuitController = new TuitController(app, tuitDao);
+const likesController = LikeController.getInstance(app);
 
 /**
  * Start a server listening at port 4000 locally

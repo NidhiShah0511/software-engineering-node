@@ -43,6 +43,8 @@ export default class FollowController implements FollowControllerI {
             app.delete("/api/users/:uid1/unfollows/:uid2", FollowController.followController.userUnfollowsUser);
             app.get("/api/users/:uid/follows", FollowController.followController.findAllUsersFollowedByUser);
             app.get("/api/users/:uid/followers", FollowController.followController.findAllUsersThatFollowUser);
+            app.delete("/api/users/:uid/removefollowers", FollowController.followController.userRemovesAllFollowers);
+            app.delete("/api/users/:uid/removefollows", FollowController.followController.userUnfollowsAllUsers);
         }
         return FollowController.followController;
     }
@@ -95,4 +97,26 @@ export default class FollowController implements FollowControllerI {
         FollowController.followDao.userUnfollowsUser(req.params.uid1, req.params.uid2)
             .then(status => res.send(status));
 
+      
+    /**
+     * @param {Request} req Represents request from client, including the
+     * path parameters uid representing the user that is losing
+     * all their followers
+     * @param {Response} res Represents response to client, including status
+     * on whether deleting the followers was successful or not
+     */
+     userRemovesAllFollowers = (req: Request, res: Response) =>
+     FollowController.followDao.userRemovesAllFollowers(req.params.uid)
+         .then(status => res.send(status));
+
+    /**
+     * @param {Request} req Represents request from client, including the
+     * path parameters uid representing the user that is unfollowing
+     * all users
+     * @param {Response} res Represents response to client, including status
+     * on whether unfollowing the users was successful or not
+     */
+    userUnfollowsAllUsers = (req: Request, res: Response) =>
+        FollowController.followDao.userUnfollowsAllUsers(req.params.uid)
+            .then(status => res.send(status));
 };

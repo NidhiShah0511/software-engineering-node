@@ -36,6 +36,7 @@ export default class BookmarkController implements BookmarkControllerI {
     public static getInstance = (app: Express): BookmarkController => {
         if (BookmarkController.bookmarkController === null) {
             BookmarkController.bookmarkController = new BookmarkController();
+            app.delete("/api/users/:uid/removeAllbookmarks/", BookmarkController.bookmarkController.userRemovesAllBookmarks);
             app.get("/api/users/:uid/bookmarks", BookmarkController.bookmarkController.findAllTuitsBookmarkedByUser);
             app.get("/api/tuits/:tid/bookmarks", BookmarkController.bookmarkController.findAllUsersThatBookmarkedTuit);
             app.post("/api/users/:uid/bookmarks/:tid", BookmarkController.bookmarkController.userBookmarksTuit);
@@ -92,4 +93,14 @@ export default class BookmarkController implements BookmarkControllerI {
         BookmarkController.bookmarkDao.userUnbookmarksTuit(req.params.uid, req.params.tid)
             .then(status => res.send(status));
 
+    /**
+     * @param {Request} req Represents request from client, including the
+     * path parameters uid representing the user that is unbookmarking all
+     * the tuits
+     * @param {Response} res Represents response to client, including status
+     * on whether deleting the bookmarks was successful or not
+     */
+    userRemovesAllBookmarks = (req: Request, res: Response) =>
+    BookmarkController.bookmarkDao.userRemovesAllBookmarks(req.params.uid)
+        .then(status => res.send(status));
 };

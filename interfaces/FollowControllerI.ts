@@ -12,4 +12,7 @@ export default interface FollowControllerI {
 
     findAllUsersThatFollowUser(req: Request, res: Response): void;
 
+    userRemovesAllFollowers(req: Request, res: Response): void;
+
+    userUnfollowsAllUsers(req: Request, res: Response): void;
 };

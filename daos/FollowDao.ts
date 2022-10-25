@@ -70,4 +70,19 @@ export default class FollowDao implements FollowDaoI {
             .populate("user")
             .exec();
 
+    /**
+     * Removes followers of User from the database.
+     * @param {string} uid User's primary key
+     * @returns Promise To be notified when followers are removed from the database
+     */
+     userRemovesAllFollowers = async (uid: string): Promise<any> =>
+         FollowModel.deleteMany({user: uid});
+ 
+     /**
+      * Removes Users the User is following from the database.
+      * @param {string} uid User's primary key
+      * @returns Promise To be notified when followers are removed from the database
+      */
+     userUnfollowsAllUsers = async (uid: string): Promise<any> =>
+         FollowModel.deleteMany({followedBy: uid});
 }

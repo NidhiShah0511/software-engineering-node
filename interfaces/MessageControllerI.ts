@@ -11,4 +11,8 @@ export default interface MessageControllerI {
     findAllMessagesReceivedByUser(req: Request, res: Response): void;
 
     userDeletesMessage(req: Request, res: Response): void;
+
+    userDeletesAllSentMessages(req: Request, res: Response): void;
+
+    userDeletesAllReceivedMessages(req: Request, res: Response): void;
 };

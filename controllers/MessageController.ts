@@ -10,14 +10,16 @@ import Message from "../models/message/Message";
  * @class MessageController Implements RESTful Web service API for messages resource.
  * Defines the following HTTP endpoints:
  * <ul>
- *     <li>GET /api/users/:uid/messages to retrieve all the tuits messaged by a user
+ *     <li>GET /api/users/:uid/messages to retrieve all messages that user received from another user
  *     </li>
- *     <li>GET /api/tuits/:tid/messages to retrieve all users that messaged a tuit
+ *     <li>GET /api/users/:uid/sentmessages to retrieve all messages that user sent to another user
  *     </li>
- *     <li>POST /api/users/:uid/messages/:tid to record that a user messages a tuit
+ *     <li>POST /api/users/:uid1/messages/:uid1 to record that a user messages another user
  *     </li>
- *     <li>DELETE /api/users/:uid/messages/:tid to record that a user
- *     no londer messages a tuit</li>
+ *     <li>DELETE /api/messages/:mid to record that a user deletes a message </li>
+ *     <li>DELETE /api/users/:uid/sentmessages to record that a user deletes all sent messages</li>
+ *     <li>DELETE /api/users/:uid/messages/ to record that a user deletes all the received messages
+ *     </li>
  * </ul>
  * @property {MessageDao} messageDao Singleton DAO implementing messages CRUD operations
  * @property {MessageController} MessageController Singleton controller implementing
@@ -39,6 +41,8 @@ export default class MessageController implements MessageControllerI {
             app.get("/api/users/:uid/sentmessages", MessageController.messageController.findAllMessagesSentByUser);
             app.get("/api/users/:uid/messages", MessageController.messageController.findAllMessagesReceivedByUser);
             app.delete("/api/messages/:mid", MessageController.messageController.userDeletesMessage);
+            app.delete("/api/users/:uid/sentmessages", MessageController.messageController.userDeletesAllSentMessages);
+            app.delete("/api/users/:uid/messages", MessageController.messageController.userDeletesAllReceivedMessages);
         }
         return MessageController.messageController;
     }
@@ -89,4 +93,26 @@ export default class MessageController implements MessageControllerI {
     userDeletesMessage = (req: Request, res: Response) =>
         MessageController.messageDao.userDeletesMessage(req.params.mid)
             .then(status => res.send(status));
+
+        /**
+     * @param {Request} req Represents request from client, including the
+     * path parameters uid representing the user whose sent messages
+     * need to be deleted.
+     * @param {Response} res Represents response to client, including status
+     * on whether deleting the messages was successful or not
+     */
+    userDeletesAllSentMessages = (req: Request, res: Response) =>
+         MessageController.messageDao.userDeletesAllSentMessages(req.params.uid)
+             .then(status => res.send(status));
+ 
+     /**
+      * @param {Request} req Represents request from client, including the
+      * path parameters uid representing the user whose received messages
+      * need to be deleted.
+      * @param {Response} res Represents response to client, including status
+      * on whether deleting the messages was successful or not
+      */
+     userDeletesAllReceivedMessages = (req: Request, res: Response) =>
+         MessageController.messageDao.userDeletesAllReceivedMessages(req.params.uid)
+             .then(status => res.send(status));
 };

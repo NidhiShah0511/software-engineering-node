@@ -70,4 +70,20 @@ export default class MessageDao implements MessageDaoI {
             .populate("message")
             .exec();
 
+    /**
+     * Removes all message instances received by user from the database.
+     * @param {string} uid User's primary key
+     * @returns Promise To be notified when messages are removed from the database
+     */
+    userDeletesAllReceivedMessages = async (uid: string): Promise<any> =>
+         MessageModel.deleteMany({to: uid});
+ 
+     /**
+      * Removes a message instances sent to user from the database.
+      * @param {string} uid User's primary key
+      * @returns Promise To be notified when messages are removed from the database
+      */
+     userDeletesAllSentMessages = async (uid: string): Promise<any> =>
+         MessageModel.deleteMany({from: uid});
+
 }

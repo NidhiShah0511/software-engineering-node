@@ -36,7 +36,7 @@ export default class BookmarkController implements BookmarkControllerI {
     public static getInstance = (app: Express): BookmarkController => {
         if (BookmarkController.bookmarkController === null) {
             BookmarkController.bookmarkController = new BookmarkController();
-            app.delete("/api/users/:uid/removeAllbookmarks/", BookmarkController.bookmarkController.userRemovesAllBookmarks);
+            app.delete("/api/users/:uid/removeallbookmarks", BookmarkController.bookmarkController.userRemovesAllBookmarks);
             app.get("/api/users/:uid/bookmarks", BookmarkController.bookmarkController.findAllTuitsBookmarkedByUser);
             app.get("/api/tuits/:tid/bookmarks", BookmarkController.bookmarkController.findAllUsersThatBookmarkedTuit);
             app.post("/api/users/:uid/bookmarks/:tid", BookmarkController.bookmarkController.userBookmarksTuit);

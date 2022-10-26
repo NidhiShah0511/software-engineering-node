@@ -83,7 +83,7 @@ export default class MessageDao implements MessageDaoI {
       * @param {string} uid User's primary key
       * @returns Promise To be notified when messages are removed from the database
       */
-     userDeletesAllSentMessages = async (uid: string): Promise<any> =>
+    userDeletesAllSentMessages = async (uid: string): Promise<any> =>
          MessageModel.deleteMany({from: uid});
 
 }

@@ -1,4 +1,4 @@
-import User from "../models/User";
+import User from "../models/user/User";
 
 export default interface UserDaoI {
    findAllUsers(): Promise<User[]>;

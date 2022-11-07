@@ -38,12 +38,23 @@ export default class UserController implements UserControllerI {
         app.post('/users', UserController.userController.createUser);
         app.delete('/users/:userid', UserController.userController.deleteUser);
         app.put('/users/:userid', UserController.userController.updateUser);
-        }
-        return UserController.userController;
+        
+          // for testing. Not RESTful
+          app.get("/users/create",
+          UserController.userController.createUser);
+          app.get("/users/id/:uid/delete",
+          UserController.userController.deleteUser);
+          app.delete("/users/username/:username/delete",
+          UserController.userController.deleteUsersByUsername);
+          app.get("/users/delete",
+          UserController.userController.deleteAllUsers);
+
+     }
+     return UserController.userController;
    }
 
    private constructor() {
-    }
+     }
 
    findAllUsers = (req: Request, res: Response) =>
         UserController.userDao.findAllUsers()
@@ -60,4 +71,41 @@ export default class UserController implements UserControllerI {
    updateUser = (req: Request, res: Response) =>
         UserController.userDao.updateUser(req.params.userid, req.body)
            .then(status => res.json(status));
+     
+    /**
+     * Removes all user instances from the database. Useful for testing
+     * @param {Request} req Represents request from client 
+     * @param {Response} res Represents response to client, including status
+     * on whether deleting all users was successful or not
+     */
+     deleteAllUsers = (req: Request, res: Response) =>
+     UserController.userDao.deleteAllUsers()
+         .then((status) => res.send(status));
+
+     /**
+     * Removes user instances from the database. Useful for testing
+     * @param {Request} req Represents request from client 
+     * @param {Response} res Represents response to client, including status
+     * on whether deleting all users was successful or not
+     */
+     deleteUsersByUsername = (req: Request, res: Response) =>
+     UserController.userDao.deleteUsersByUsername(req.params.username)
+          .then(status => res.send(status));
+
+     /**
+     * Login user instances from the database. Useful for testing
+     * @param {Request} req Represents request from client 
+     * @param {Response} res Represents response to client, including users status
+     */
+     login = (req: Request, res: Response) =>
+          UserController.userDao
+          .findUserByCredentials(req.body.username, req.body.password)
+          .then(user => {
+               res.json(user)
+          });
+     
+     register = (req: Request, res: Response) =>
+          UserController.userDao.findUserByUsername(req.body.username)
+          .then(user => {
+     })
 }

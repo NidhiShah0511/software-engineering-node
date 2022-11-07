@@ -39,6 +39,7 @@ import Tuit from "../models/tuit/Tuit";
         app.get('/tuits/:tid', TuitController.tuitController.findTuitById);
         app.get('/users/:uid/tuits', TuitController.tuitController.findTuitsByUser);
         app.post('/tuits', TuitController.tuitController.createTuit);
+        app.post("/users/:uid/tuits", TuitController.tuitController.createTuitByUser);
         app.delete('/tuits/:tid', TuitController.tuitController.deleteTuit);
         app.put('/tuits/:tid', TuitController.tuitController.updateTuit);
         }
@@ -109,4 +110,16 @@ import Tuit from "../models/tuit/Tuit";
     updateTuit = (req: Request, res: Response) =>
         TuitController.tuitDao.updateTuit(req.params.tid, req.body)
             .then(status => res.json(status));
+
+    /**
+     * @param {Request} req Represents request from client, including body
+     * containing the JSON object for the new tuit to be inserted in the
+     * database
+     * @param {Response} res Represents response to client, including the
+     * body formatted as JSON containing the new tuit that was inserted in the
+     * database
+     */
+    createTuitByUser = (req: Request, res: Response) =>
+        TuitController.tuitDao.createTuitByUser(req.params.uid, req.body)
+             .then((tuit: Tuit) => res.json(tuit));
 }

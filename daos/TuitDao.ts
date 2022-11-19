@@ -83,4 +83,14 @@ import TuitDaoI from "../interfaces/TuitDaoI";
     async deleteTuit(tid: string): Promise<any> {
         return await TuitModel.deleteOne({_id: tid});
     }
+
+    /**
+     * Creates a tuit instance from the database.
+     * @param {Tuit} tid Tuit's object
+     * @param {string} uid User's primary key
+     * @returns New created tuit
+     */
+    async createTuitByUser(uid: string, tuit: Tuit): Promise<Tuit> {
+        return await TuitModel.create({...tuit, postedBy: uid});
+    }
 }

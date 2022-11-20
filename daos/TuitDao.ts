@@ -93,4 +93,11 @@ import TuitDaoI from "../interfaces/TuitDaoI";
     async createTuitByUser(uid: string, tuit: Tuit): Promise<Tuit> {
         return await TuitModel.create({...tuit, postedBy: uid});
     }
+
+    async updateLikes(tid: string, newStats: any): Promise<any> {
+        return TuitModel.updateOne(
+        {_id: tid},
+        {$set: {stats: newStats}}
+    );
+    }
 }

@@ -11,6 +11,7 @@ import FollowController from "./controllers/FollowController";
 import BookmarkController from "./controllers/BookmarkController";
 import MessageController from "./controllers/MessageController";
 import AuthenticationController from './controllers/AuthenticationController';
+import DislikeController from './controllers/DislikeController';
 
 const cors = require("cors");
 const session = require("express-session");
@@ -53,6 +54,7 @@ const followController = FollowController.getInstance(app);
 const bookmarkController = BookmarkController.getInstance(app);
 const messageController = MessageController.getInstance(app);
 const authenticationController = AuthenticationController(app);
+const dislikeController = DislikeController.getInstance(app);
 
 /**
  * Start a server listening at port 4000 locally

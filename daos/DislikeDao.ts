@@ -27,25 +27,25 @@ export default class DislikeDao implements DislikeDaoI {
         .populate("dislikedBy")
         .exec();
 
-findAllTuitsDislikedByUser = async (uid: string): Promise<Dislike[]> =>
-    DislikeModel.find({dislikedBy: uid})
-        .populate({
-            path: "tuit",
-            populate: {
-                path: "postedBy"
-            }
-        })
-        .exec();
+    findAllTuitsDislikedByUser = async (uid: string): Promise<Dislike[]> =>
+        DislikeModel.find({dislikedBy: uid})
+            .populate({
+                path: "tuit",
+                populate: {
+                    path: "postedBy"
+                }
+            })
+            .exec();
 
-userDislikesTuit = async (uid: string, tid: string): Promise<any> =>
-    DislikeModel.create({tuit: tid, dislikedBy: uid});
+    userDislikesTuit = async (uid: string, tid: string): Promise<any> =>
+        DislikeModel.create({tuit: tid, dislikedBy: uid});
 
-findUserDislikesTuit = async (uid: string, tid: string): Promise<any> =>
-    DislikeModel.findOne({tuit: tid, dislikedBy: uid});
+    findUserDislikesTuit = async (uid: string, tid: string): Promise<any> =>
+        DislikeModel.findOne({tuit: tid, dislikedBy: uid});
 
-userUndislikesTuit = async (uid: string, tid: string): Promise<any> =>
-    DislikeModel.deleteOne({tuit: tid, dislikedBy: uid});
+    userUndislikesTuit = async (uid: string, tid: string): Promise<any> =>
+        DislikeModel.deleteOne({tuit: tid, dislikedBy: uid});
 
-countHowManyDislikedTuit = async (tid: string): Promise<any> =>
-    DislikeModel.count({tuit: tid});
+    countHowManyDislikedTuit = async (tid: string): Promise<any> =>
+        DislikeModel.count({tuit: tid});
 }

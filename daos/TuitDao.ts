@@ -33,9 +33,10 @@ import TuitDaoI from "../interfaces/TuitDaoI";
      * @returns Promise To be notified when the tuits are retrieved from
      * database
      */
-    async findAllTuits(): Promise<Tuit[]> {
-        return await TuitModel.find();
-    }
+    findAllTuits = async (): Promise<Tuit[]> =>
+        TuitModel.find()
+         .populate("postedBy")
+         .exec();
 
     /**
      * Uses TuitDao to retrieve all tuits documents from tuits collection that are created by user
@@ -44,7 +45,9 @@ import TuitDaoI from "../interfaces/TuitDaoI";
      * database
      */
     async findTuitsByUser(uid: string): Promise<Tuit[]> {
-        return await TuitModel.find({postedBy: uid});
+        return await TuitModel.find({postedBy: uid})
+        .populate("postedBy")
+        .exec();
     }
 
     /**

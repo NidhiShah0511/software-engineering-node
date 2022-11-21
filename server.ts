@@ -40,7 +40,8 @@ let sess = {
     //saveUninitialized: true,
     //resave: true,
     cookie: {
-        secure: false
+        secure: false,
+        domain: "tuit-application-nshah.herokuapp.com"
     }
 }
 

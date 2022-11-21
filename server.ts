@@ -17,10 +17,23 @@ const cors = require("cors");
 const session = require("express-session");
 const app = express();
 
-app.use(cors({
-    credentials: true,
-    origin: 'http://localhost:3000'
-}));
+app.use(function (req, res, next) {
+
+    var allowedDomains = ['http://localhost:3000','http://localhost', 'https://nshah-tuiter-app-react.netlify.app' ];
+    const origin = req.headers.origin;
+    //@ts-ignore
+    if(allowedDomains.indexOf(origin) > -1){
+        //@ts-ignore
+      res.setHeader('Access-Control-Allow-Origin', origin);
+    }
+
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type, Accept');
+    //@ts-ignore
+    res.setHeader('Access-Control-Allow-Credentials', true);
+
+    next();
+  })
 
 let sess = {
     secret: 'process.env.SECRET',

@@ -1,13 +1,40 @@
+/**
+ * @file Controller RESTful Web service API for authentication
+ */
 import {Request, Response, Express} from "express";
 import UserDao from "../daos/UserDao";
 
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
+/**
+ * @class AuthenticationController Implements RESTful Web service API for authentic resource.
+ * Defines the following HTTP endpoints:
+ * <ul>
+ *     <li>POST /api/auth/login to post login for a user
+ *     </li>
+ *     <li>POST /api/auth/logout to post logout for a user
+ *     </li>
+ *     <li>POST /api/auth/profile to retrieve a user's profile
+ *     </li>
+ *     <li>POST /api/auth/signup to register a new user
+ *     </li>
+ * </ul>
+ * @property {UserDao} userDao Singleton DAO implementing users CRUD operations
+ * @property {AuthenticationController} AuthenticationController Singleton controller implementing
+ * RESTful Web service API
+ */
 const AuthenticationController = (app: Express) => {
 
     const userDao: UserDao = UserDao.getInstance();
 
+    /**
+     * Signup api that registers a new user
+     * @param {Request} req Represents request from client, including the 
+     * new username and password
+     * @param {Response} res Represents response to client, including the
+     * body formatted as JSON arrays containing the user objects
+     */
     const signup = async (req: Request, res: Response) => {
         const newUser = req.body;
         const password = newUser.password;
@@ -29,6 +56,13 @@ const AuthenticationController = (app: Express) => {
         }
     }
 
+    /**
+     * Login api that logins an existing user
+     * @param {Request} req Represents request from client, including the 
+     * existing username and password
+     * @param {Response} res Represents response to client, including the
+     * body formatted as JSON arrays containing the user objects
+     */
     const login = async (req: Request, res: Response) => {
         const user = req.body;
         const username = user.username;
@@ -50,6 +84,13 @@ const AuthenticationController = (app: Express) => {
         }
     }
 
+    /**
+     * Profile api that retrieves an existing user
+     * @param {Request} req Represents request from client, including the 
+     * existing session profile
+     * @param {Response} res Represents response to client, including the
+     * body formatted as JSON arrays containing the user objects
+     */
     const profile = (req: Request, res: Response) => {
         // @ts-ignore
         const profile = req.session['profile'];
@@ -61,6 +102,13 @@ const AuthenticationController = (app: Express) => {
         }
     }
 
+    /**
+     * Logout api that logouts an existing user
+     * @param {Request} req Represents request from client, including the 
+     * existing user session
+     * @param {Response} res Represents response to client, including the
+     * body formatted as JSON arrays containing the user objects
+     */
     const logout = (req: Request, res: Response) => {
         // @ts-ignore
         req.session.destroy();

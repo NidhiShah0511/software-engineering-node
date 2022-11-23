@@ -16,37 +16,26 @@ import DislikeController from './controllers/DislikeController';
 const cors = require("cors");
 const session = require("express-session");
 const app = express();
-
-app.use(function (req, res, next) {
-
-    var allowedDomains = ['http://localhost:3000','http://localhost', 'https://nshah-tuiter-app-react.netlify.app' ];
-    const origin = req.headers.origin;
-    //@ts-ignore
-    if(allowedDomains.indexOf(origin) > -1){
-        //@ts-ignore
-      res.setHeader('Access-Control-Allow-Origin', origin);
-    }
-
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type, Accept');
-    //@ts-ignore
-    res.setHeader('Access-Control-Allow-Credentials', true);
-
-    next();
-  })
+const isProductionEnv = process.env.ENV === 'PRODUCTION';
+//console.log("Current environment ", process.env.ENV, " is production: ", isProductionEnv);
+app.use(cors({
+    credentials: true,
+    origin: ['http://localhost:3000','http://localhost', 'https://nshah-tuiter-app-react.netlify.app' ]
+}));
 
 let sess = {
     secret: 'process.env.SECRET',
-    //saveUninitialized: true,
-    //resave: true,
+    saveUninitialized: true,
+    resave: true,
     cookie: {
-        secure: false
+        sameSite: isProductionEnv ? 'none' : 'lax',
+        secure: isProductionEnv
     }
 }
 
-if (process.env.ENV === 'PRODUCTION') {
+if (isProductionEnv) {
     app.set('trust proxy', 1) // trust first proxy
-    sess.cookie.secure = true // serve secure cookies
+    //sess.cookie.secure = true // serve secure cookies
 }
 app.use(session(sess));
 app.use(express.json());

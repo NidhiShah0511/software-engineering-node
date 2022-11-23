@@ -6,7 +6,7 @@
  import Dislike from "../../models/likes/Dislike";
  
  /**
-  * @typedef DislikeSchema Represents likes schema in mongoose
+  * @typedef DislikeSchema Represents dislikes schema in mongoose
   * @property {Tuit} tuit Tuit being liked
   * @property {User} likedBy User liking the tuit
   */

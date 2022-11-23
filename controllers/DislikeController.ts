@@ -1,5 +1,5 @@
 /**
- * @file Controller RESTful Web service API for likes resource
+ * @file Controller RESTful Web service API for dislikes resource
  */
  import {Express, Request, Response} from "express";
  import DislikeDao from "../daos/DislikeDao";
@@ -8,20 +8,18 @@
  import DislikeControllerI from "../interfaces/DislikeControllerI";
  
  /**
-  * @class TuitController Implements RESTful Web service API for likes resource.
+  * @class DislikeController Implements RESTful Web service API for dislikes resource.
   * Defines the following HTTP endpoints:
   * <ul>
-  *     <li>GET /api/users/:uid/likes to retrieve all the tuits liked by a user
+  *     <li>GET /api/users/:uid/dislikes to retrieve all the tuits disliked by a user
   *     </li>
-  *     <li>GET /api/tuits/:tid/likes to retrieve all users that liked a tuit
+  *     <li>GET /api/tuits/:tid/dislikes to retrieve all users that dislikes a tuit
   *     </li>
-  *     <li>POST /api/users/:uid/likes/:tid to record that a user likes a tuit
+  *     <li>POST /api/users/:uid/dislikes/:tid to record that a user dislikes a tuit
   *     </li>
-  *     <li>DELETE /api/users/:uid/unlikes/:tid to record that a user
-  *     no londer likes a tuit</li>
   * </ul>
-  * @property {LikeDao} likeDao Singleton DAO implementing likes CRUD operations
-  * @property {LikeController} LikeController Singleton controller implementing
+  * @property {DislikeDao} dislikeDao Singleton DAO implementing likes CRUD operations
+  * @property {DislikeController} dislikeController Singleton controller implementing
   * RESTful Web service API
   */
  export default class DislikeController implements DislikeControllerI {
@@ -33,7 +31,7 @@
       * Creates singleton controller instance
       * @param {Express} app Express instance to declare the RESTful Web service
       * API
-      * @return TuitController
+      * @return DislikeController
       */
      public static getInstance = (app: Express): DislikeController => {
          if(DislikeController.dislikeController === null) {
@@ -47,7 +45,7 @@
  
      private constructor() {}
  
-         /**
+    /**
      * Retrieves all users that disliked a tuit from the database
      * @param {Request} req Represents request from client, including the path
      * parameter tid representing the disliked tuit

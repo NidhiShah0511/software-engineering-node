@@ -18,7 +18,7 @@ const session = require("express-session");
 const app = express();
 
 const isProductionEnv = process.env.ENV === 'PRODUCTION';
-//console.log("Current environment ", process.env.ENV, " is production: ", isProductionEnv);
+console.log("Current environment ", process.env.ENV, " is production: ", isProductionEnv);
 app.use(cors({
     credentials: true,
     origin: ['http://localhost:3000','http://localhost', 'https://nshah-tuiter-app-react.netlify.app' ]

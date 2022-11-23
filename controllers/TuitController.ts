@@ -76,12 +76,8 @@ import Tuit from "../models/tuit/Tuit";
      * body formatted as JSON arrays containing the tuit objects
      */        
     findTuitsByUser = (req: Request, res: Response) => {
-        let userId = req.params.uid === "me"
         // @ts-ignore
-        && req.session['profile'] ?
-        // @ts-ignore
-        req.session['profile']._id :
-        req.params.uid;
+        let userId = req.params.uid === "me" && req.session['profile'] ? req.session['profile']._id : req.params.uid;
         TuitController.tuitDao.findTuitsByUser(userId)
         .then((tuits: Tuit[]) => res.json(tuits));
     }

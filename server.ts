@@ -16,6 +16,7 @@ import DislikeController from './controllers/DislikeController';
 const cors = require("cors");
 const session = require("express-session");
 const app = express();
+
 const isProductionEnv = process.env.ENV === 'PRODUCTION';
 console.log("Current environment ", process.env.ENV, " is production: ", isProductionEnv);
 app.use(cors({
